@@ -401,10 +401,10 @@ export default class FlashMessage extends Component {
    * Use `setColorTheme` static method to override the primary colors/types of flash messages
    */
   static ColorTheme = {
-    success: "#5cb85c",
-    info: "#5bc0de",
-    warning: "#f0ad4e",
-    danger: "#d9534f",
+    success: "#AEDCAE",//#5cb85c
+    info: "#ADE0EF",//"#5bc0de",
+    warning: "#F8D6A7",//"#f0ad4e",
+    danger: '#ECA9A7'//"#d9534f",
   };
   static setColorTheme = theme => {
     FlashMessage.ColorTheme = Object.assign(FlashMessage.ColorTheme, theme);
@@ -676,9 +676,12 @@ const styles = StyleSheet.create({
   },
   defaultFlash: {
     justifyContent: "flex-start",
-    paddingVertical: 15,
+    paddingVertical: Platform.OS === 'android'? 9 : 10,
     paddingHorizontal: 20,
     backgroundColor: "#696969",
+    marginLeft: Platform.OS === 'android'? 7 : 0,
+    marginRight: Platform.OS === 'android'? 7 : 0,
+    borderRadius : Platform.OS === 'android'? 7 : 0
   },
   defaultFlashCenter: {
     margin: 44,
@@ -697,9 +700,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   flashText: {
-    fontSize: 14,
+    fontSize: 13,
     lineHeight: 18,
-    color: "#fff",
+    color: "#363636",
+    fontFamily: 'Montserrat-Medium',
+    marginBottom:4
   },
   flashTitle: {
     fontSize: 16,
