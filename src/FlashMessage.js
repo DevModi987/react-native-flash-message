@@ -1,18 +1,15 @@
 import React, { Component } from "react";
-import { StyleSheet, TouchableWithoutFeedback, Platform, StatusBar, Animated, Image, Text, View,NativeModules } from "react-native";
+import { StyleSheet, TouchableWithoutFeedback, Platform, StatusBar, Animated, Image, Text, View} from "react-native";
 import { isIphoneX, getStatusBarHeight } from "react-native-iphone-screen-helper";
 import PropTypes from "prop-types";
 
 import FlashMessageManager from "./FlashMessageManager";
 import FlashMessageWrapper, { styleWithInset } from "./FlashMessageWrapper";
-
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 /**
  * MessageComponent `minHeight` property used mainly in vertical transitions
  */
 const OFFSET_HEIGHT = Platform.OS !== "ios" ? 60 : 48;
-
-const {StatusBarManager}    =   NativeModules;
-const STATUSBAR_HEIGHT      =   StatusBarManager.HEIGHT;
 
 /**
  * `message` prop it's expected to be some "object"
@@ -216,6 +213,8 @@ export const DefaultFlash = React.forwardRef(
       hasIcon = !!iconView;
     }
 
+    const insets            =   useSafeAreaInsets();
+
     return (
       <FlashMessageWrapper
         ref={ref}
@@ -237,6 +236,9 @@ export const DefaultFlash = React.forwardRef(
                       backgroundColor: FlashMessage.ColorTheme[message.type],
                     },
                 style,
+                {
+                  marginTop : Platform.OS === 'android'? insets.top + 1 : 0
+                }
               ],
               wrapperInset,
               !!hideStatusBar,
@@ -679,13 +681,13 @@ const styles = StyleSheet.create({
   },
   defaultFlash: {
     justifyContent: "flex-start",
-    paddingVertical: Platform.OS === 'android'? 9 : 10,
+    paddingVertical: Platform.OS === 'android'? 9 : 15,
     paddingHorizontal: 20,
     backgroundColor: "#696969",
     marginLeft: Platform.OS === 'android'? 7 : 0,
     marginRight: Platform.OS === 'android'? 7 : 0,
     borderRadius : Platform.OS === 'android'? 7 : 0,
-    marginTop: Platform.OS === 'android'? STATUSBAR_HEIGHT : 0,
+    //marginTop: Platform.OS === 'android'? STATUSBAR_HEIGHT : 0,
   },
   defaultFlashCenter: {
     margin: 44,
